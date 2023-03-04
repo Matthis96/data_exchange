@@ -3,8 +3,16 @@ from signal import signal, SIGTERM, SIGHUP, pause
 from w1thermsensor import W1ThermSensor
 import xlsxwriter
 import datetime
+import functions
 
-time.sleep(30)
+# declare important variables
+t = 59
+
+
+# start program when new day starts
+functions.check_if_midnight()
+
+time.sleep(25)
 
 sensor = W1ThermSensor()
 workbook = xlsxwriter.Workbook('data.xlsx')
@@ -27,16 +35,14 @@ while i <= 1440:
         temp = str(temperature)
         print(f'{i} The temperature is {temperature} celsius')
         index = str(i)
-        datatable.write(i,0,index)
+        datatable.write(i,0,current_time_str)
         datatable.write(i,1,temperature)
-        datatable.write(i,2,current_time)
-        datatable.write(i,3,current_time_str)
     except:
         print("Sensor has crashed!")
         sensor = W1ThermSensor()
         signal(SIGTERM, safe_exit)
         signal(SIGHUP, safe_exit)
-    time.sleep(60)
+    time.sleep(t)
 
 print("while loop verlassen")
 workbook.close()

@@ -7,9 +7,9 @@ def check_if_midnight():
             microsecond=0,
             second=0
         )
-        if cur_time == "00:00:00":
+        print(cur_time)
+        if str(cur_time) == "00:00:00":
             print("tracking starts")
             break
         else:
-            pass
-    time.sleep(60)
+            time.sleep(30)
